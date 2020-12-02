@@ -1,0 +1,10 @@
+class AssignmentCompanyAdapter(
+    val listener: OnItemClickListener<IAssignment>? = null
+) : BaseViewBindingAdapter<IAssignment, AssignmentCompanyViewHolder>(mutableListOf()) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AssignmentCompanyViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.li_assignment_company, parent, false)
+        val viewBinding = LiAssignmentCompanyBinding.bind(view)
+        return AssignmentCompanyViewHolder(viewBinding, listener)
+    }
+}
