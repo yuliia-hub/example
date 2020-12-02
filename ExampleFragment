@@ -1,0 +1,54 @@
+class AssignmentPagerFragment : BaseFragment() {
+
+    companion object {
+        private const val ASSIGNMENT_ID = "assignment_id"
+
+        fun newInstance(id: String): AssignmentPagerFragment {
+            return AssignmentPagerFragment().apply {
+                arguments = bundleOf(ASSIGNMENT_ID to id)
+            }
+        }
+    }
+    
+    private var _binding: FragmentAssignmentDetailScreenBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
+        val fragmentBinding = FragmentAssignmentDetailScreenBinding.inflate(inflater, container, false)
+        _binding = fragmentBinding
+        return fragmentBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        arguments?.getString(ASSIGNMENT_ID)?.let {
+            initUI(it)
+        }
+    }
+
+    override fun clearViewBinding() {
+        _binding = null
+    }
+
+    private fun initUI(assignmentId: String) {
+        with(binding) {
+            setAppBarTitle(R.string.assignments)
+            showAppBar()
+            with(aCDetailsRv) {
+                adapter = AssignmentDetailsStateAdapter(assignmentId, this@AssignmentPagerFragment)
+                TabLayoutMediator(aCDetailsTabs, this) { tab, position ->
+                    tab.text = getPageTitle(position)
+                }.attach()
+            }
+        }
+    }
+
+    private fun getPageTitle(position: Int): CharSequence? = getString(
+        when (position) {
+            0 -> R.string.overview
+            1 -> R.string.influencers
+            else -> R.string.assets
+        }
+    )
+
+}
