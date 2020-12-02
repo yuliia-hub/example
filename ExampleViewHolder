@@ -1,0 +1,16 @@
+class AssignmentCompanyViewHolder(
+    private val binding: LiAssignmentCompanyBinding,
+    private val listener: OnItemClickListener<IAssignment>?
+) : BaseViewBindingViewHolder<IAssignment>(binding) {
+
+    override fun bind(item: IAssignment) {
+        with(itemView) {
+            with(binding) {
+                liATitle.text = item.title
+                liADescription.text = item.description
+                liASocialItemsView.setSocialLinks(item.socialLinks)
+                setOnClickListener { listener?.onItemClick(item) }
+            }
+        }
+    }
+}
